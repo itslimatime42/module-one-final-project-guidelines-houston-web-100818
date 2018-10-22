@@ -1,4 +1,4 @@
-class App < ActiveRecord::Base
-  has_many :downloads
-  has_many :cell_phones, through: :downloads
+class User < ActiveRecord::Base
+  has_many :reviews
+  has_many :bars, through: :reviews
 end

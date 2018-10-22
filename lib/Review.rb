@@ -1,4 +1,4 @@
-class Download < ActiveRecord::Base
-  belongs_to :cell_phone
-  belongs_to :app
+class Review < ActiveRecord::Base
+  belongs_to :user
+  belongs_to :bar
 end
