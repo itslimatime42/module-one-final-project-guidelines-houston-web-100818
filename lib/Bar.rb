@@ -5,23 +5,31 @@ class Bar < ActiveRecord::Base
   has_many :reviews
   has_many :users, through: :reviews
 
-  def self.gross_problems?
-    gross_stuff = ["roach", "roaches", "poo", "hobo", "rat", "rats"]
-    rev_array = Review.all.select do | review |
-      array = review.content.split(" ").collect do | word |
+  def self.gross_array
+    ["roach", "roaches", "poo", "hobo", "rat", "rats", "feces", "vomit", "droppings", 
+    "cockroach", "cockroaches", "mold", "slime", "hepatitis", "poop", "heroin"]
+  end
+
+  def self.gross_problems?(gross_word = nil)
+    new_gross_array = self.gross_array
+    if gross_word
+      new_gross_array << gross_word
+    end
+    gross_review_array = Review.all.select do | review |
+      review_array = review.content.split(" ").collect do | word |
         word.downcase.gsub(/[^0-9A-Za-z]/,'')
       end
-      !(array & gross_stuff).empty?
+      !(review_array & new_gross_array).empty?
     end
-    new_hash = {}
-    rev_array.each do | review |
-      if !new_hash[review.bar.name]
-        new_hash[review.bar.name] = [review.content]
+    gross_review_hash = {}
+    gross_review_array.each do | review |
+      if !gross_review_hash[review.bar.name]
+        gross_review_hash[review.bar.name] = [{"rating" => review.rating, "content" => review.content}]
       else
-        new_hash[review.bar.name] << review.content
+        gross_review_hash[review.bar.name] << {"rating" => review.rating, "content" => review.content}
       end
     end
-    new_hash
+    gross_review_hash
   end
 
 end

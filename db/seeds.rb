@@ -16,3 +16,7 @@ rev3 = Review.find_or_create_by(user: user1, bar: bar3, rating: 3, content: "ahh
 rev4 = Review.find_or_create_by(user: user4, bar: bar2, rating: 0, content: "roaches... are you f***ing kidding me?!")
 rev5 = Review.find_or_create_by(user: user3, bar: bar4, rating: 1, content: "rats... are you f***ing kidding me?!")
 rev6 = Review.find_or_create_by(user: user1, bar: bar2, rating: 0, content: "my chair had poo in it!")
+rev7 = Review.find_or_create_by(user: user3, bar: bar4, rating: 0, content: "I got hepatitis!")
+rev8 = Review.find_or_create_by(user: user3, bar: bar4, rating: 0, content: "the food killed my friend")
+rev9 = Review.find_or_create_by(user: user4, bar: bar3, rating: 2, content: "so much diarrhea...")
+
