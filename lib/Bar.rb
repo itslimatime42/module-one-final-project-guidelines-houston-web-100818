@@ -7,7 +7,7 @@ class Bar < ActiveRecord::Base
 
   def self.gross_array
     ["roach", "roaches", "poo", "hobo", "rat", "rats", "feces", "vomit", "droppings", 
-    "cockroach", "cockroaches", "mold", "slime", "hepatitis", "poop", "heroin"]
+    "cockroach", "cockroaches", "mold", "slime", "hepatitis", "poop", "heroin", "cocaine"]
   end
 
   def self.gross_problems?(gross_word = nil)
