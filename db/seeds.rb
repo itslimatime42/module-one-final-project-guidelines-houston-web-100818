@@ -20,3 +20,26 @@ rev7 = Review.find_or_create_by(user: user3, bar: bar4, rating: 0, content: "I g
 rev8 = Review.find_or_create_by(user: user3, bar: bar4, rating: 0, content: "the food killed my friend")
 rev9 = Review.find_or_create_by(user: user4, bar: bar3, rating: 2, content: "so much diarrhea...")
 
+location = "houston"
+offset = 0
+limit = 50
+api_url = "https://api.yelp.com/v3/businesses/search?location=#{location}&term=bars&limit=50&offset=#{offset}"
+api_key = "Bearer ZCGB7cghN6Tbki6ojzII7FrWTpKUxQ3FRxvxjOG1YSBFZg7LS8TULAO6gQtFodUK1ku8xcImJBqvAlqS1uAN_zhmXxyH2TYb7qHhSrB77GASx8wH_WRJOrDMCzDOW3Yx"
+headers = {
+  "cache-control" => 'no-cache',
+  "Authorization" => api_key
+}
+
+
+response = JSON.parse(RestClient.get(api_url, headers))
+
+bars_array = response["businesses"]
+bars_count = response["total"]
+times_to_loop = (bars_count / limit) - 1
+
+for num in (1..times_to_loop)
+  offset += 50
+  response = JSON.parse(RestClient.get(api_url, headers))
+  (bars_array << response["businesses"]).flatten!
+end
+binding.pry
