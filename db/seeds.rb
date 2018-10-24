@@ -36,10 +36,12 @@ response = JSON.parse(RestClient.get(api_url, headers))
 bars_array = response["businesses"]
 bars_count = response["total"]
 times_to_loop = (bars_count / limit) - 1
-
+#binding.pry
 for num in (1..times_to_loop)
   offset += 50
   response = JSON.parse(RestClient.get(api_url, headers))
   (bars_array << response["businesses"]).flatten!
 end
 binding.pry
+
+
