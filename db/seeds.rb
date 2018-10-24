@@ -1,4 +1,5 @@
 require_relative '../config/environment'
+require_relative 'seeds_helper'
 
 bar1 = Bar.find_or_create_by(name: "bar 1", category: "drag bar", city: "h-town")
 bar2 = Bar.find_or_create_by(name: "bar 2", category: "sports bar", city: "h-town")
