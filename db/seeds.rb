@@ -1,6 +1,5 @@
 require_relative '../config/environment'
-require 'nokogiri'
-require 'open-uri'
+require_relative 'seeds_helper'
 
 
 location = "houston"
