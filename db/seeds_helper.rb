@@ -3,6 +3,7 @@ require 'open-uri'
 require 'pry'
 require 'json'
 
+url = "https://www.yelp.com/biz/axelrad-houston"
 def review_scraper(url)
     html = open(
         url, 
@@ -13,6 +14,13 @@ def review_scraper(url)
 
     doc = Nokogiri::HTML(html)
 
-    reviews = JSON.parse(doc.css('script')[7].inner_text)
+    count = 0
+    for i in (0..100)
+        reviews = JSON.parse(doc.css('script')[i].inner_text)
+        if reviews["review"] != nil
+         break
+        end
+    end
     reviews["review"]
 end
+review_scraper(url)
