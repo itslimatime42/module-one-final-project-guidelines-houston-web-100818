@@ -42,6 +42,3 @@ for num in (1..times_to_loop)
   response = JSON.parse(RestClient.get(api_url, headers))
   (bars_array << response["businesses"]).flatten!
 end
-binding.pry
-
-
