@@ -2,7 +2,7 @@ class Review < ActiveRecord::Base
   belongs_to :user
   belongs_to :bar
 
-
+  
 
   def self.worst_date_ever
     dates = Review.all.where(rating: 1).select do | review |
