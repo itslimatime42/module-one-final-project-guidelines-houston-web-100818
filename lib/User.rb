@@ -2,12 +2,18 @@ class User < ActiveRecord::Base
   has_many :reviews
   has_many :bars, through: :reviews
 
-  # method that returns user with the most bad ratings
-  # def self.most_bad_ratings_user
-  #   angry_user_array = Review.all.where("rating < '3'")
-  #     binding.pry
-  #
-  # end
+  def self.angriest_user_reviews
+    angriest_user_id_count = Review.all.where(rating: 1).group("user_id").count("user_id").max_by{|k, v| v}
+
+    angriest_user_id = angriest_user_id_count[0]
+    review_count = angriest_user_id_count[1]
+    angriest_user_name = User.all.where(id: angriest_user_id)[0][:name]
+    angry_reviews = Review.all.where(user_id: angriest_user_id, rating: 1)
+    angry_reviews_array = angry_reviews.map {|review| review[:content]}
+
+    angry_hash = {name: angriest_user_name, count: review_count, reviews: angry_reviews_array}
+  end
+
 
   def self.side_pieces
     reviews = Review.all.select do | review |
