@@ -22,7 +22,6 @@ class User < ActiveRecord::Base
     end
 
     cheaters = reviews.map do | review |
-      # binding.pry
       name = User.all.where(id: review[:user_id])[0][:name]
       bar = Bar.all.where(id: review[:bar_id])[0][:name]
       { name: name, recommendation: bar, review: review.content }
