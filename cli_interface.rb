@@ -37,7 +37,7 @@ end
 def continue
   move_on_again = $prompt.yes?("Are you sure you can handle it?")
   if move_on_again == false
-    puts "You're probably right.  Let's do this anyway."
+    puts "You're probably right. Let's do this anyway."
   else
     puts "Oh, you bad!"
   end

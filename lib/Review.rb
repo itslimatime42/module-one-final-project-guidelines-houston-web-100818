@@ -19,18 +19,3 @@ class Review < ActiveRecord::Base
     end
   end
 end
-
-
-def self.side_pieces
-  reviews = Review.all.select do | review |
-    words = review.content.split(" ")
-    words.include?("sidepiece") || words.include?("sidepieces")
-  end
-
-  cheaters = reviews.map do | review |
-    # binding.pry
-    name = User.all.where(id: review[:user_id])[0][:name]
-    bar = Bar.all.where(id: review[:bar_id])[0][:name]
-    { name: name, recommendation: bar, review: review.content }
-  end
-end
