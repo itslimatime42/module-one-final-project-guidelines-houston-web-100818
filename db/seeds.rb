@@ -28,18 +28,17 @@ bars_array.each do | bar |
     city: bar["location"]["city"],
     url: "https://www.yelp.com/biz/#{bar["alias"]}"
   )
-  if this_bar.id > 900
-    bar_reviews = review_scraper(this_bar.url)
 
-    bar_reviews.each do | bar_review |
-      this_user = User.find_or_create_by(name: bar_review["author"])
+  bar_reviews = review_scraper(this_bar.url)
 
-      this_review = Review.find_or_create_by(
-        user: this_user,
-        bar: this_bar,
-        rating: bar_review["reviewRating"]["ratingValue"],
-        content: bar_review["description"]
-      )
-    end
+  bar_reviews.each do | bar_review |
+    this_user = User.find_or_create_by(name: bar_review["author"])
+
+    this_review = Review.find_or_create_by(
+      user: this_user,
+      bar: this_bar,
+      rating: bar_review["reviewRating"]["ratingValue"],
+      content: bar_review["description"]
+    )
   end
 end
