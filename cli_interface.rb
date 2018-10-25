@@ -17,7 +17,7 @@ $bar_types = {
 $prompt = TTY::Prompt.new
 
 def welcome_get_name
-  name = $prompt.ask("Welcome to Houston Bar Search. What is your name?", default: "Anonymous") do |q|
+  name = $prompt.ask("Welcome to the Houston Shady Bar Search. What's your name?", default: "Anonymous") do |q|
     q.required true
     q.validate /\A\w+\Z/
     q.modify   :capitalize
