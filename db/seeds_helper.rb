@@ -14,7 +14,6 @@ def review_scraper(url)
 
     doc = Nokogiri::HTML(html)
 
-    count = 0
     for i in (6..100)
         reviews = JSON.parse(doc.css('script')[i].inner_text)
         if reviews["review"] != nil
