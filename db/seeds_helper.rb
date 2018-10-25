@@ -3,7 +3,6 @@ require 'open-uri'
 require 'pry'
 require 'json'
 
-url = "https://www.yelp.com/biz/axelrad-houston"
 def review_scraper(url)
     html = open(
         url, 
@@ -23,4 +22,3 @@ def review_scraper(url)
     end
     reviews["review"]
 end
-review_scraper(url)
