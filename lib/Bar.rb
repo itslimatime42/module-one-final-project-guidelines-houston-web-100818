@@ -9,7 +9,7 @@ class Bar < ActiveRecord::Base
     ["roach", "roaches", "poo", "hobo", "rat", "rats", "feces", "vomit", "droppings", "cockroach", "cockroaches", "hepatitis", "heroin", "cocaine", "puke", "urine", "pee", "prostitute", "piss", "skank", "disease", "tabc", "swingers", "barf", "barfs"]
   end
 
-  def self.nasty?(gross_word = nil)
+  def self.nasty?(gross_word=nil)
     new_gross_array = self.gross_array
     new_gross_array << gross_word if gross_word
 
@@ -19,6 +19,9 @@ class Bar < ActiveRecord::Base
       end
       !(review_array & new_gross_array).empty? && review.rating < 3
     end
+  end
+
+  def self.nasty_array_to_hash(gross_review_array)
     gross_review_hash = {}
     gross_review_array.each do | review |
       if !gross_review_hash[review.bar.name]
