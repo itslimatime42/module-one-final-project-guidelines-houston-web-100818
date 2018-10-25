@@ -6,9 +6,9 @@ class Bar < ActiveRecord::Base
   has_many :users, through: :reviews
 
   def self.gross_array
-    ["roach", "roaches", "poo", "hobo", "rat", "rats", "feces", "vomit", "droppings", 
+    ["roach", "roaches", "poo", "hobo", "rat", "rats", "feces", "vomit", "droppings",
     "cockroach", "cockroaches", "mold", "slime", "hepatitis", "poop", "heroin", "cocaine", "puke",
-    "urine", "pee", "wtf", "prostitute"]
+    "urine", "pee", "wtf", "prostitute", "piss", "skank", "disease", "racist", "racists", "blood", "ghost", "ghosts", "tabc"]
   end
 
   def self.gross_problems?(gross_word = nil)
