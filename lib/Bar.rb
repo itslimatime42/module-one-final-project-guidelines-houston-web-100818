@@ -6,7 +6,7 @@ class Bar < ActiveRecord::Base
   has_many :users, through: :reviews
 
   def self.gross_array
-    ["roach", "roaches", "poo", "hobo", "rat", "rats", "feces", "vomit", "droppings", "cockroach", "cockroaches", "mold", "slime", "hepatitis", "poop", "heroin", "cocaine", "puke", "urine", "pee", "wtf", "prostitute", "piss", "skank", "disease", "blood", "ghost", "ghosts", "tabc", "swingers", "nasty", "barf", "barfs"]
+    ["roach", "roaches", "poo", "hobo", "rat", "rats", "feces", "vomit", "droppings", "cockroach", "cockroaches", "hepatitis", "heroin", "cocaine", "puke", "urine", "pee", "prostitute", "piss", "skank", "disease", "tabc", "swingers", "barf", "barfs"]
   end
 
   def self.nasty?(gross_word = nil)
@@ -17,7 +17,7 @@ class Bar < ActiveRecord::Base
       review_array = review.content.split(" ").collect do | word |
         word.downcase.gsub(/[^0-9A-Za-z]/,'')
       end
-      !(review_array & new_gross_array).empty?
+      !(review_array & new_gross_array).empty? && review.rating < 3
     end
     gross_review_hash = {}
     gross_review_array.each do | review |
