@@ -14,9 +14,8 @@ class Bar < ActiveRecord::Base
 
   def self.nasty?(gross_word = nil)
     new_gross_array = self.gross_array
-    if gross_word
-      new_gross_array << gross_word
-    end
+    new_gross_array << gross_word if gross_word
+
     gross_review_array = Review.all.select do | review |
       review_array = review.content.split(" ").collect do | word |
         word.downcase.gsub(/[^0-9A-Za-z]/,'')
@@ -33,5 +32,4 @@ class Bar < ActiveRecord::Base
     end
     gross_review_hash
   end
-
 end

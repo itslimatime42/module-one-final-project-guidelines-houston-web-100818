@@ -1,4 +1,5 @@
 require_relative 'config/environment'
+require_relative 'cli_interface'
 require 'sinatra/activerecord/rake'
 
 desc 'starts a console'
