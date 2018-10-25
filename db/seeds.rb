@@ -1,7 +1,6 @@
 require_relative '../config/environment'
 require_relative 'seeds_helper'
 
-
 location = "houston"
 
 api_key = "Bearer ZCGB7cghN6Tbki6ojzII7FrWTpKUxQ3FRxvxjOG1YSBFZg7LS8TULAO6gQtFodUK1ku8xcImJBqvAlqS1uAN_zhmXxyH2TYb7qHhSrB77GASx8wH_WRJOrDMCzDOW3Yx"
@@ -23,13 +22,24 @@ end
 
 bars_array.each do | bar |
 
-  Bar.find_or_create_by(
+  this_bar = Bar.find_or_create_by(
     name: bar["name"],
     category: bar["categories"][0]["title"],
     city: bar["location"]["city"],
     url: "https://www.yelp.com/biz/#{bar["alias"]}"
   )
+  if this_bar.id > 900
+    bar_reviews = review_scraper(this_bar.url)
 
+    bar_reviews.each do | bar_review |
+      this_user = User.find_or_create_by(name: bar_review["author"])
 
-
+      this_review = Review.find_or_create_by(
+        user: this_user,
+        bar: this_bar,
+        rating: bar_review["reviewRating"]["ratingValue"],
+        content: bar_review["description"]
+      )
+    end
+  end
 end
