@@ -5,7 +5,7 @@ require 'json'
 
 def review_scraper(url)
     html = open(
-        url, 
+        url,
         "User-Agent" => "Ruby/#{RUBY_VERSION}",
         "From" => "foo@bar.invalid",
         "Referer" => "http://www.ruby-lang.org/"

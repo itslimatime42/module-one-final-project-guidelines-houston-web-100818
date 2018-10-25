@@ -33,7 +33,7 @@ bars_array.each do | bar |
   bar_reviews = review_scraper(this_bar.url)
   bar_reviews.each do | bar_review |
 
-    this_user = User.find_or_create_by(bar_review["author"])
+    this_user = User.find_or_create_by(name: bar_review["author"])
 
     this_review = Review.find_or_create_by(
       user: this_user,
