@@ -1,4 +1,4 @@
-require_relative 'config/environment'
+require_relative '../config/environment'
 
 $prompt = TTY::Prompt.new
 
@@ -145,10 +145,7 @@ def nasty_printer(nasty_hash)
   nasty_hash.each do | bar, review_array |
     review_array.each do | review |
       message = "\nBar: #{bar}\n\nRating: #{review["rating"]}\n\nReview:\n#{review["content"]}\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-      next_or_back = $prompt.select(message, response_choices[:next_or_back_choices])
-      if next_or_back == "Back"
-        launch_first_menu
-      end
+      review_printer(message)
     end
   end
 end
@@ -168,10 +165,7 @@ def angriest_user_printer(user_hash)
   puts "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
   user_hash[:reviews].each do | review |
     message = "\nBar: #{review.keys[0]}\n\nReview:\n#{review.values[0]}\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-    next_or_back = $prompt.select(message, response_choices[:next_or_back_choices])
-    if next_or_back == "Back"
-      launch_first_menu
-    end
+    review_printer(message)
   end
 end
 
@@ -180,10 +174,14 @@ def bar_search_printer(name, review_array)
   puts "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
   review_array.each do |review|
     message = "\nRating: #{review[:rating]}\nReview:\n#{review[:content]}\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
-    next_or_back = $prompt.select(message, response_choices[:next_or_back_choices])
-    if next_or_back == "Back"
-      launch_first_menu
-    end
+    review_printer(message)
+  end
+end
+
+def review_printer(message)
+  next_or_back = $prompt.select(message, response_choices[:next_or_back_choices])
+  if next_or_back == "Back"
+    launch_first_menu
   end
 end
 
@@ -198,5 +196,3 @@ def run_program
     launch_first_menu(name)
   end
 end
-
-run_program
