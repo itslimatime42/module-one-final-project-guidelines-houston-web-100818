@@ -152,10 +152,8 @@ end
 
 def worst_date_and_sidepiece_printer(review_array)
   review_array.each do | review |
-    puts "\nName: #{review[:name]}"
-    puts "\nBar: #{review[:bar]}"
-    puts "\nReview:\n#{review[:review]}"
-    puts "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+    message = "\nName: #{review[:name]}\nBar: #{review[:bar]}\nReview:\n#{review[:review]}\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+    review_printer(message)
   end
 end
 
