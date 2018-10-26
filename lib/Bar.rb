@@ -19,6 +19,7 @@ class Bar < ActiveRecord::Base
       end
       !(review_array & new_gross_array).empty? && review.rating < 3
     end
+    self.nasty_array_to_hash(gross_review_array)
   end
 
   def self.nasty_array_to_hash(gross_review_array)
@@ -32,4 +33,5 @@ class Bar < ActiveRecord::Base
     end
     gross_review_hash
   end
+
 end
