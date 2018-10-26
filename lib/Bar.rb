@@ -11,7 +11,7 @@ class Bar < ActiveRecord::Base
 
   def self.nasty?(gross_word=nil)
     new_gross_array = self.gross_array
-    new_gross_array = [gross_word] if gross_word
+    new_gross_array = [gross_word.downcase] if gross_word
 
     gross_review_array = Review.all.select do | review |
       review_array = review.content.split(" ").collect do | word |
