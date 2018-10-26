@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
     review_count = angriest_user_id_count[1]
     angriest_user_name = User.all.where(id: angriest_user_id)[0][:name]
     angry_reviews = Review.all.where(user_id: angriest_user_id, rating: 1)
-    angry_reviews_array = angry_reviews.map do |review| 
+    angry_reviews_array = angry_reviews.map do |review|
       {Bar.all.where(id: review[:bar_id])[0][:name] => review[:content]}
     end
     angry_hash = {name: angriest_user_name, count: review_count, reviews: angry_reviews_array}
@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   def self.side_pieces
     reviews = Review.all.select do | review |
       words = review.content.split(" ")
-      words.include?("sidepiece") || words.include?("sidepieces")
+      words.include?("sidepiece") || words.include?("sidepieces") || words.include?("mistresses") || words.include?("escorts")
     end
 
     cheaters = reviews.map do | review |
