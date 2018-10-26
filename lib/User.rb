@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   def self.side_pieces
     reviews = Review.all.select do | review |
       words = review.content.split(" ")
-      words.include?("sidepiece") || words.include?("sidepieces") || words.include?("mistresses") || ©words.include?("escorts")
+      words.include?("sidepiece") || words.include?("sidepieces") || words.include?("mistresses") || words.include?("escorts")
     end
 
     cheaters = reviews.map do | review |
