@@ -24,25 +24,26 @@ $expert_menu_choices = {
 
 def messages(name=nil)
   {
-    start: "Pick your poison:",
-    nasty: "\nHow nasty you feelin'?",
-    expert: "\nWhat kind of recommendation you lookin' for?",
-    nasty_word: "\nGimme your nasty word: ",
-    move_on: "\n#{name}, are you ready to explore the seedy underbelly of Houston?",
-    move_on_again: "\nAre you sure you can handle it?",
-    continue_message1: "\nYou're probably right. Let's do this anyway.",
-    continue_message2: "\nOh, you bad! ",
-    welcome: "\nWelcome to the Houston Shady Bar Search. What's your name?",
+    start: "Pick your poison: ",
+    nasty: "How nasty you feelin'? ",
+    expert: "What kind of recommendation you lookin' for? ",
+    nasty_word: "Gimme your nasty word: ",
+    move_on: "#{name}, are you ready to explore the seedy underbelly of Houston? ",
+    move_on_again: "Are you sure you can handle it?",
+    continue_message1: "You're probably right. Let's do this anyway.",
+    continue_message2: "Oh, you bad! ",
+    welcome: "Welcome to the Houston Shady Bar Search. What's your name?",
     input_error: "That word was a little too nasty, try again.",
-    exit: "\nGo back to your sheltered, uninteresting life!\n",
-    bar_search: "\nEnter the seedy bar you're looking for to get its reviews: "
+    exit: "Go back to your sheltered, uninteresting life!",
+    bar_search: "Enter the seedy bar you're looking for to get its reviews: "
   }
 end
 
 def response_choices
   {
     move_on_choices: %w(Yes No),
-    move_on_again_choices: %w(I\ was\ born\ ready Probably\ not)
+    move_on_again_choices: %w(I\ was\ born\ ready Probably\ not),
+    next_or_back_choices: %w(Next\ review Back)
   }
 end
 
@@ -143,10 +144,11 @@ end
 def nasty_printer(nasty_hash)
   nasty_hash.each do | bar, review_array |
     review_array.each do | review |
-      puts "\nBar: #{bar}"
-      puts "\nRating: #{review["rating"]}"
-      puts "\nReview:\n#{review["content"]}"
-      puts "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+      message = "\nBar: #{bar}\n\nRating: #{review["rating"]}\n\nReview:\n#{review["content"]}\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+      next_or_back = $prompt.select(message, response_choices[:next_or_back_choices])
+      if next_or_back == "Back"
+        launch_first_menu
+      end
     end
   end
 end
@@ -165,9 +167,11 @@ def angriest_user_printer(user_hash)
   puts "\nNumber of unsatisfied reviews: #{user_hash[:count]}"
   puts "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
   user_hash[:reviews].each do | review |
-    puts "\nBar: #{review.keys[0]}"
-    puts "\nReview:\n#{review.values[0]}"
-    puts "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+    message = "\nBar: #{review.keys[0]}\n\nReview:\n#{review.values[0]}\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+    next_or_back = $prompt.select(message, response_choices[:next_or_back_choices])
+    if next_or_back == "Back"
+      launch_first_menu
+    end
   end
 end
 
@@ -175,9 +179,11 @@ def bar_search_printer(name, review_array)
   puts "\nBar: #{name}"
   puts "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
   review_array.each do |review|
-    puts "\nRating: #{review[:rating]}"
-    puts "\nReview:\n#{review[:content]}"
-    puts "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+    message = "\nRating: #{review[:rating]}\nReview:\n#{review[:content]}\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+    next_or_back = $prompt.select(message, response_choices[:next_or_back_choices])
+    if next_or_back == "Back"
+      launch_first_menu
+    end
   end
 end
 
