@@ -72,6 +72,7 @@ def continue_message
   end
 end
 
+<<<<<<< HEAD
 def launch_menu(menu_choice, message)
   $prompt.select(message, menu_choice)
 end
@@ -176,5 +177,10 @@ def run_program
     launch_first_menu(name)
   end
 end
+=======
+# def start_menu
+#   categories = $prompt.multi_select("Select the bar types you'd like to explore. Hit space bar to make a selection, and hit enter when you are finished adding selections.", $bar_types)
+# end
+>>>>>>> huh?
 
 run_program
