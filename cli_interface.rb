@@ -24,7 +24,7 @@ $expert_menu_choices = {
 
 def messages(name=nil)
   {
-    start: "Alright #{name}, pick your poison:",
+    start: "Pick your poison:",
     nasty: "\nHow nasty you feelin'?",
     expert: "\nWhat kind of recommendation you lookin' for?",
     nasty_word: "\nGimme your nasty word: ",
@@ -34,7 +34,8 @@ def messages(name=nil)
     continue_message2: "\nOh, you bad! ",
     welcome: "\nWelcome to the Houston Shady Bar Search. What's your name?",
     input_error: "That word was a little too nasty, try again.",
-    exit: "\nGo back to your sheltered, uninteresting life!\n"
+    exit: "\nGo back to your sheltered, uninteresting life!\n",
+    bar_search: "\nEnter the seedy bar you're looking for to get its reviews: "
   }
 end
 
@@ -57,8 +58,9 @@ def move_on(name)
   move_on = $prompt.select(messages(name)[:move_on], response_choices[:move_on_choices])
 end
 
-def exit
+def exit?
   puts messages[:exit]
+  exit
 end
 
 def continue_message
@@ -72,14 +74,8 @@ def continue_message
   end
 end
 
-<<<<<<< HEAD
 def launch_menu(menu_choice, message)
   $prompt.select(message, menu_choice)
-end
-
-def side_piece
-  result = User.side_pieces
-  # { name: name, recommendation: bar, review: review.content }
 end
 
 def launch_first_menu(name=nil)
@@ -87,13 +83,20 @@ def launch_first_menu(name=nil)
 
   case start_choice
   when 0
-
+    bar_name = $prompt.select(messages[:bar_search], filter: true) do |options|
+      Bar.all.collect do |bar|
+        options.choice bar.name
+      end
+    end
+    bar_reviews = Bar.find_by(name: bar_name).reviews.order("rating")
+    bar_search_printer(bar_name, bar_reviews)
+    launch_first_menu
   when 1
     nasty_choice = launch_menu($nasty_menu_choices, messages[:nasty])
-    test = launch_nasty_menu(nasty_choice)
+    launch_nasty_menu(nasty_choice)
   when 2
     expert_choice = launch_menu($expert_menu_choices, messages[:expert])
-    test = launch_expert_menu(expert_choice)
+    launch_expert_menu(expert_choice)
   when 3
     exit
   end
@@ -122,14 +125,16 @@ def launch_nasty_menu(nasty_choice)
 end
 
 def launch_expert_menu(expert_choice)
-  binding.pry
   case expert_choice
   when 0
-    worst_date_printer(Review.worst_date_ever)
-  when 1 # angriest user
-
-  when 2 # side piece
-
+    worst_date_and_sidepiece_printer(Review.worst_date_ever)
+    launch_first_menu
+  when 1
+    angriest_user_printer(User.angriest_user_reviews)
+    launch_first_menu
+  when 2
+    worst_date_and_sidepiece_printer(User.side_pieces)
+    launch_first_menu
   when 3
     launch_first_menu
   end
@@ -146,8 +151,8 @@ def nasty_printer(nasty_hash)
   end
 end
 
-def worst_date_printer(review_array)
-  Review.worst_date_ever.each do | review |
+def worst_date_and_sidepiece_printer(review_array)
+  review_array.each do | review |
     puts "\nName: #{review[:name]}"
     puts "\nBar: #{review[:bar]}"
     puts "\nReview:\n#{review[:review]}"
@@ -155,14 +160,24 @@ def worst_date_printer(review_array)
   end
 end
 
-def launch_expert_menu(expert_choice)
-  case expert_choice
-  when 0
+def angriest_user_printer(user_hash)
+  puts "\nName: #{user_hash[:name]}"
+  puts "\nNumber of unsatisfied reviews: #{user_hash[:count]}"
+  puts "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+  user_hash[:reviews].each do | review |
+    puts "\nBar: #{review.keys[0]}"
+    puts "\nReview:\n#{review.values[0]}"
+    puts "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+  end
+end
 
-  when 1
-
-  when 2
-
+def bar_search_printer(name, review_array)
+  puts "\nBar: #{name}"
+  puts "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
+  review_array.each do |review|
+    puts "\nRating: #{review[:rating]}"
+    puts "\nReview:\n#{review[:content]}"
+    puts "\n* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *"
   end
 end
 
@@ -171,16 +186,11 @@ def run_program
   yes_or_no = move_on(name)
 
   if yes_or_no == "No"
-    exit
+    exit?
   else
     name = continue_message
     launch_first_menu(name)
   end
 end
-=======
-# def start_menu
-#   categories = $prompt.multi_select("Select the bar types you'd like to explore. Hit space bar to make a selection, and hit enter when you are finished adding selections.", $bar_types)
-# end
->>>>>>> huh?
 
 run_program
